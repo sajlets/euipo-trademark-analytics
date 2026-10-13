@@ -1,0 +1,8 @@
+application_number,filing_date,applicant_country,filing_type,nice_class
+DEMO-001, 2023-01-10 , ee , Individual,9
+DEMO-001, 2023-01-10 , ee , Individual,Class 42
+DEMO-002,11/06/2023,DE,Individual,25
+DEMO-003,2024-02-20,Estonia,Individual,9
+DEMO-003,2024-02-20,Estonia,Individual,35
+DEMO-004,2024-04-01,FR,Collective,25
+DEMO-005,2024-09-12,FI,Individual,42
