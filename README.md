@@ -14,8 +14,7 @@ Python, SQL, DuckDB, data-quality checks, and a dashboard.
 The dashboard explores filing volume over time, the share of applications
 associated with Estonian applicants, the most common Nice classes, and filing
 type. These indicators can help a reader describe changes in filing activity
-and the mix of applications. They do not measure the workload or performance
-of the Estonian Patent Office.
+and the mix of applications. 
 
 ## Why these tools
 
