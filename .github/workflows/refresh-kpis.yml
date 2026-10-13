@@ -1,0 +1,51 @@
+name: Refresh trade mark KPIs
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: vars.EUIPO_CSV_URL != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project
+        run: python -m pip install .
+
+      - name: Download, validate, and calculate KPIs
+        env:
+          EUIPO_CSV_URL: ${{ vars.EUIPO_CSV_URL }}
+        run: |
+          load-trademarks "$EUIPO_CSV_URL"
+          python -m trademark_analytics.publish_kpis --source "$EUIPO_CSV_URL"
+
+      - name: Publish updated KPI snapshot
+        run: |
+          if git diff --quiet -- docs/latest_kpis.md; then
+            echo "KPI snapshot is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/latest_kpis.md
+          git commit -m "Refresh weekly trade mark KPIs"
+          git push
+
+  source-not-configured:
+    if: vars.EUIPO_CSV_URL == ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Explain required source configuration
+        run: echo "::notice::Set the EUIPO_CSV_URL repository variable to enable scheduled KPI refreshes."

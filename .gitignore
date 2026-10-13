@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local analytics data
+data/*.duckdb
+data/*.csv
+!data/sample_filings.csv
